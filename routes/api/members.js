@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
     };
     if (!newMember.name || !newMember.email) return res.status(400).json({msg: 'Missing information'});
     members.push(newMember);
-    res.json(members);
+    res.redirect('/');
 });
 
 //Edit/update member

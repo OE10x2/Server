@@ -1,13 +1,27 @@
 const express = require('express');
+const bars = require('express-handlebars');
 const path = require('path');
-const logger = require('./middleware/logger');
 const app = express();
+const members = require('./members');
 
-//Initialize middleware: "app.use(logger);"
+/*Initialize middleware:
+const logger = require('./middleware/logger');
+"app.use(logger);"
+*/
+
+//Handlebars Middleware
+app.engine('handlebars', bars({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 //Body Parser Middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+
+//Homepage Route
+app.get('/', (req, res) => res.render('index', {
+    title: 'Member App',
+    members
+}));
 
 //Setup static folder
 app.use(express.static(path.join(__dirname, 'public')));
